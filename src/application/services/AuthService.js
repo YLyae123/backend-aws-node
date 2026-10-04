@@ -1,5 +1,11 @@
+const UserRepository = require("../../infrastructure/database/UserRepository");
+
 class AuthService {
-  login(email, password) {
+  constructor() {
+    this.userRepository = new UserRepository();
+  }
+
+  async login(email, password) {
     if (!email || !password) {
       return {
         success: false,
@@ -7,20 +13,22 @@ class AuthService {
       };
     }
 
-    if (email === "leonardo.89@unach.mx" && password === "9235") {
+    const usuario = await this.userRepository.findByEmail(email);
+
+    if (!usuario || !usuario.validarCredenciales(email, password)) {
       return {
-        success: true,
-        user: {
-          id: 1,
-          name: "Leonardo",
-          email: email
-        }
+        success: false,
+        message: "Credenciales incorrectas"
       };
     }
 
     return {
-      success: false,
-      message: "Credenciales incorrectas"
+      success: true,
+      user: {
+        id: usuario.id,
+        name: usuario.nombre,
+        email: usuario.correo
+      }
     };
   }
 }
