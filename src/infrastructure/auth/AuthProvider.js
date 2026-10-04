@@ -1,10 +1,30 @@
+const jwt = require("jsonwebtoken");
+
 class AuthProvider {
+  constructor() {
+    this.secret = process.env.JWT_SECRET || "clave-secreta-practica-aws";
+  }
+
   generateToken(user) {
-    return `token-${user.id}-${Date.now()}`;
+    return jwt.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      },
+      this.secret,
+      {
+        expiresIn: "1h"
+      }
+    );
   }
 
   validateToken(token) {
-    return Boolean(token && token.startsWith("token-"));
+    try {
+      return jwt.verify(token, this.secret);
+    } catch (error) {
+      return null;
+    }
   }
 }
 
