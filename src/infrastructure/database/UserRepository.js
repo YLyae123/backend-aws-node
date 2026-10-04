@@ -21,7 +21,7 @@ class UserRepository {
               row.id,
               row.name,
               row.email,
-              row.password
+              row.password,
               row.role
             )
           );
@@ -33,8 +33,8 @@ class UserRepository {
   create(nombre, correo, password) {
     return new Promise((resolve, reject) => {
       db.run(
-        "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-        [nombre, correo, password],
+        "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
+        [nombre, correo, password, "user"],
         function (error) {
           if (error) {
             return reject(error);
@@ -45,7 +45,7 @@ class UserRepository {
               this.lastID,
               nombre,
               correo,
-              password
+              password,
               "user"
             )
           );
