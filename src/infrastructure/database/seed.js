@@ -5,7 +5,7 @@ const userRepository = new UserRepository();
 async function createUser() {
   try {
     const existingUser = await userRepository.findByEmail(
-      "leonardo.89@unach.mx"
+      "leonardo.aceituno89@unach.mx"
     );
 
     if (existingUser) {
@@ -16,14 +16,16 @@ async function createUser() {
     const user = await userRepository.create(
       "Leonardo",
       "leonardo.aceituno89@unach.mx",
-      "9235"
+      "9235",
+      "admin"
     );
 
     console.log("Usuario creado correctamente:");
     console.log({
       id: user.id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      role: user.role
     });
 
     process.exit(0);

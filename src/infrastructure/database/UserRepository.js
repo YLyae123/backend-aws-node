@@ -30,11 +30,11 @@ class UserRepository {
     });
   }
 
-  create(nombre, correo, password) {
+  create(nombre, correo, password, role = "user") {
     return new Promise((resolve, reject) => {
       db.run(
         "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
-        [nombre, correo, password, "user"],
+        [nombre, correo, password, role],
         function (error) {
           if (error) {
             return reject(error);
@@ -46,7 +46,7 @@ class UserRepository {
               nombre,
               correo,
               password,
-              "user"
+              role
             )
           );
         }
